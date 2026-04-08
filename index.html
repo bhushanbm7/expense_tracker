@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="./assets/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">ET</div>
+          <div>
+            <div class="title">Expense Tracker</div>
+            <div class="subtitle">Simple, fast, and secure (Supabase)</div>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="user-pill" id="userPill" hidden>
+            <span class="user-email" id="userEmail"></span>
+            <button class="btn btn-ghost" id="logoutBtn" type="button">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="card auth-card" id="authCard">
+          <h2>Welcome</h2>
+          <p class="muted">Sign up or log in to track your income and expenses.</p>
+
+          <form class="grid" id="authForm">
+            <label class="field">
+              <span>Email</span>
+              <input id="authEmail" type="email" autocomplete="email" required />
+            </label>
+            <label class="field">
+              <span>Password</span>
+              <input
+                id="authPassword"
+                type="password"
+                autocomplete="current-password"
+                minlength="6"
+                required
+              />
+              <span class="hint">Minimum 6 characters</span>
+            </label>
+
+            <div class="row">
+              <button class="btn btn-primary" id="loginBtn" type="button">Login</button>
+              <button class="btn" id="signupBtn" type="button">Sign up</button>
+            </div>
+
+            <div class="alert" id="authAlert" hidden></div>
+          </form>
+        </section>
+
+        <section class="stack" id="appSection" hidden>
+          <section class="grid-2">
+            <div class="card">
+              <h2>Overview</h2>
+              <div class="totals">
+                <div class="total">
+                  <div class="label">Income</div>
+                  <div class="value value-income" id="incomeTotal">$0.00</div>
+                </div>
+                <div class="total">
+                  <div class="label">Expense</div>
+                  <div class="value value-expense" id="expenseTotal">$0.00</div>
+                </div>
+                <div class="total total-balance">
+                  <div class="label">Balance</div>
+                  <div class="value" id="balanceTotal">$0.00</div>
+                </div>
+              </div>
+              <div class="muted tiny">Balance = income - expense</div>
+            </div>
+
+            <div class="card">
+              <h2>Add transaction</h2>
+              <form class="grid" id="txForm">
+                <label class="field">
+                  <span>Amount</span>
+                  <input
+                    id="txAmount"
+                    type="number"
+                    step="0.01"
+                    min="0.01"
+                    inputmode="decimal"
+                    placeholder="e.g. 25.50"
+                    required
+                  />
+                </label>
+
+                <label class="field">
+                  <span>Type</span>
+                  <select id="txType" required>
+                    <option value="expense" selected>Expense</option>
+                    <option value="income">Income</option>
+                  </select>
+                </label>
+
+                <label class="field">
+                  <span>Description</span>
+                  <input id="txDescription" type="text" maxlength="200" placeholder="e.g. Groceries" />
+                </label>
+
+                <button class="btn btn-primary" id="addTxBtn" type="submit">Add</button>
+
+                <div class="alert" id="txAlert" hidden></div>
+              </form>
+            </div>
+          </section>
+
+          <section class="card">
+            <div class="row row-space">
+              <div>
+                <h2>Transactions</h2>
+                <div class="muted tiny" id="txCount">0 items</div>
+              </div>
+              <button class="btn btn-ghost" id="refreshBtn" type="button">Refresh</button>
+            </div>
+
+            <div class="list" id="txList"></div>
+
+            <div class="empty" id="txEmpty" hidden>
+              No transactions yet. Add your first income or expense above.
+            </div>
+          </section>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span class="muted tiny">Built with HTML/CSS/JS + Supabase. Data is secured by RLS.</span>
+      </footer>
+    </div>
+
+    <script type="module" src="./assets/app.js"></script>
+  </body>
+</html>
+
