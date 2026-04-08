@@ -105,3 +105,4 @@ Then open:
   - RLS is enabled on `public.transactions`
   - policies exist and target role `authenticated`
 
+# expense_tracker
