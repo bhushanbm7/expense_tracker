@@ -1,12 +1,14 @@
-# Expense Tracker (HTML/CSS/JS + Supabase)
+# Finance Glass (HTML/CSS/JS + Supabase)
 
-Simple expense tracker with:
+Modern financial tracking app with:
 
 - Supabase **email/password** auth
-- Add **income/expense** transactions
-- Transaction list + delete
-- Balance = income - expense
-- Clean UI (no build tools)
+- Multi-page navigation: **Dashboard**, **Expenses**, **SIP**, **EMI**, **About SIP**
+- Expense tracking with **categories**
+- Dashboard summary + charts (Chart.js via CDN)
+- SIP & EMI calculators (real-time) + amortization table
+- Glassmorphism UI (blur, transparency, gradients) with responsive layout
+- No build tools (static site)
 
 ## 1) Create a Supabase project
 
@@ -25,12 +27,19 @@ create table if not exists public.transactions (
   user_id uuid not null references auth.users(id) on delete cascade,
   amount numeric(12, 2) not null check (amount > 0),
   type text not null check (type in ('income', 'expense')),
+  category text not null default 'Uncategorized',
   description text not null default '',
   created_at timestamptz not null default now()
 );
 
+alter table public.transactions
+  add column if not exists category text not null default 'Uncategorized';
+
 create index if not exists transactions_user_id_created_at_idx
   on public.transactions (user_id, created_at desc);
+
+create index if not exists transactions_user_id_category_idx
+  on public.transactions (user_id, category);
 
 alter table public.transactions enable row level security;
 
@@ -103,6 +112,4 @@ Then open:
 - If you see RLS errors when adding/listing transactions, re-check that:
   - you ran the SQL
   - RLS is enabled on `public.transactions`
-  - policies exist and target role `authenticated`
-
-# expense_tracker
+  - policies exist and target role `authenticated`# Finance_tool
